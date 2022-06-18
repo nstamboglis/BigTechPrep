@@ -21,7 +21,27 @@ This is the most honest self-thought I can think of for myself. Ok, enough chit-
 **SQL Questions**
 
 * Write a SQL code to explain month to month user retention rate.
-    * test   
+    * Assumption: I have a table users_month with the following columns: a) plat_payment_date, b) user_id. plat_payment_date is valued monthly with the same day as the date of subscription. 
+    * Solution: 
+    * SELECT 
+        * tab1.user_id
+        * tab1.user_start_date
+        * tab1.user_date   
+    * from(
+        * SELECT 
+        *   MIN(EXTRACT(MONTH FROM users_month.plat_payment_date)) AS user_start_date
+        *   um.user_id
+        * FROM users_month um
+        * GROUP BY users_month.user_id
+    *) tab1
+    * inner_join(
+        * SELECT 
+        *   EXTRACT(MONTH FROM users_month.plat_payment_date) AS user_date
+        *   um2.user_id
+        * FROM users_month um2
+        * GROUP BY users_month.user_id
+    * ) tab2
+    * by tab1.user_id = tab2.user_id;
 * Describe different JOINs in SQL;
 * What is the most advanced query you’ve ever written?
 * Given a table with three columns, (id, category, value) and each id has 3 or less categories (price, size, color); how can you find those id's for which the value of two or more categories matches one another? 
