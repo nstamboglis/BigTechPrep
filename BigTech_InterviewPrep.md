@@ -24,8 +24,8 @@ This is the most honest self-thought I can think of for myself. Ok, enough chit-
     * Assumption: I have a table users_month with the following columns: a) plat_payment_date, b) user_id. plat_payment_date is valued monthly with the same day as the date of subscription. 
     * Solution: 
     * ```
-    * SELECT 
-        * tab1.user_id
+    SELECT 
+        tab1.user_id
         * tab1.user_start_date
         * tab1.user_date   
     * from(
