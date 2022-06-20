@@ -47,8 +47,8 @@ This is the most honest self-thought I can think of for myself. Ok, enough chit-
 * Describe different JOINs in SQL;
     * Assuming we have two tables: A (to the left) and B (to the right). Assume we Have A = [("ID", "Country"), (1, Austria), (2, UK), (3, Italy)] and B = [c("Country", "Capital"), (Austria, Vienna), (UK, London), (Italy, Rome), (Thailand, Bangkok)].Then the different join types are:  
     * Left join -> Returns all the rows of table A and all the matching records of table B that satisfy the matching condition. 
-    ```E.g. Select * from A left_join(B) on A.country = B.Country
-    ```, returns 
+    ``` Select * from A left_join(B) on A.country = B.Country ```
+    returns 
     * Right join -> Returns all the rows of table B and all the matching records of Table A that satisfy the matching condition.
     * Inner join
     * Outer join  
