@@ -45,14 +45,25 @@ This is the most honest self-thought I can think of for myself. Ok, enough chit-
     by tab1.user_id = tab2.user_id;
     ```
 * Describe different JOINs in SQL;
-    * Assuming we have two tables: A (to the left) and B (to the right). Assume we Have A = [("ID", "Country"), (1, Austria), (2, UK), (3, Italy)] and B = [c("Country", "Capital"), (Austria, Vienna), (UK, London), (Italy, Rome), (Thailand, Bangkok)].Then the different join types are:  
+    * Assuming we have two tables: A (to the left) and B (to the right). Assume we Have A = [("ID", "Country"), (1, Austria), (2, UK), (3, Italy)] and B = [c("Country", "Capital"), (Austria, Vienna), (Italy, Rome), (Thailand, Bangkok)].Then the different join types are:  
     * Left join -> Returns all the rows of table A and all the matching records of table B that satisfy the matching condition. 
-    ``` Select * from A left_join(B) on A.country = B.Country ```
-    returns 
+    Example:
+    ``` Select * from A left join(B) on A.country = B.Country ```
+    returns C = [("ID", "Country", "Capital"), (1, Austria, Vienna), (2, UK, NA), (3, Italy, Rome)]
     * Right join -> Returns all the rows of table B and all the matching records of Table A that satisfy the matching condition.
-    * Inner join
-    * Outer join  
-* What is the most advanced query you’ve ever written?
+        Example:
+    ``` Select * from A right join(B) on A.country = B.Country ```
+    returns C = [("ID", "Country", "Capital"), (1, Austria, Vienna), (3, Italy, Rome), (NA, Thailand, Bangkok)]
+    * Inner join ->  Returns all records which are in common across the two tables.
+        Example:
+    ``` Select * from A inner join(B) on A.country = B.Country ```
+    returns C = [("ID", "Country", "Capital"), (1, Austria, Vienna), (3, Italy, Rome)]
+    * Outer join -> returns all records that are not shared across the two tables
+        Example:
+    ``` Select * from A outer join(B) on A.country = B.Country ```
+    returns C = [("ID", "Country", "Capital"), (2, UK, NA), (NA, Thailand, Bangkok)]
+* What is the most advanced query (MAQ) you’ve ever written?
+    * The MAQ I've ever written 
 * Given a table with three columns, (id, category, value) and each id has 3 or less categories (price, size, color); how can you find those id's for which the value of two or more categories matches one another? 
 * I have table 1, with 1 million records, with ID, AGE (column names) , Table 2 with 100 records with ID and Salary, and the following script. How many records would be returned?
 
