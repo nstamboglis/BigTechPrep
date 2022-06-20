@@ -63,7 +63,44 @@ This is the most honest self-thought I can think of for myself. Ok, enough chit-
     ``` Select * from A outer join(B) on A.country = B.Country ```
     returns C = [("ID", "Country", "Capital"), (2, UK, NA), (NA, Thailand, Bangkok)]
 * What is the most advanced query (MAQ) you’ve ever written?
-    * The MAQ I've ever written 
+    * The MAQ I've ever written involved searching for the share of companies in a database which includes specific key words in their registered name. Assume we had table A = [c("Year", "ID", "Feature1")] and B = ["ID", "Reg_Name"]. The query went something along these lines:
+    ```
+    select
+        tab3.year
+        count(tab3.ID) as n_companies
+        tab3.my_flag
+    from(
+        select 
+            tab1.Year
+            tab1.ID
+            colesce(company_flag, 0) as my_flag
+        from(
+            select *
+            from A
+            where A.Year >= 2005
+        ) tab1
+        left join (
+            select *
+            from A
+            where A.Year >= 2005
+            left join (
+                select B.ID
+                case 
+                    when B.Reg_Name (like ('%word1%') OR like ('%word2%') OR like ('%word3%')) then 1
+                    else 0
+                end as company_flag
+            )
+            on A.ID = B.ID
+        ) tab2
+        on tab1.Year = tab2.Year AND tab1.ID = tab2.ID
+    ) tab3 
+    group by
+        tab3.year, tabe.my_flag
+    order by
+        tab3.year asc, tab3.myflag asc
+    ```
+
+
 * Given a table with three columns, (id, category, value) and each id has 3 or less categories (price, size, color); how can you find those id's for which the value of two or more categories matches one another? 
 * I have table 1, with 1 million records, with ID, AGE (column names) , Table 2 with 100 records with ID and Salary, and the following script. How many records would be returned?
 
