@@ -163,13 +163,101 @@ This is the most honest self-thought I can think of for myself. Ok, enough chit-
 
     WHERE B.SALARY > 50000
 
+    * The WHERE condition specified at the end is applied AFTER the left join is made, hence the results will depend on the join results across the two tables. Assuming that we have no duplicated records in table 1 and in table 2, then the answer is less than 100 records. More specifically, we will find the number of records in table 2 who are also in table 1 and that satisfy the salary condition. 
+
 * Given a csv file with ID and Quantity columns, 50million records, and the size of the data is 2gig, write a program to aggregate the QUANTITY column.
+
+    * SOLUTION: The below is a postgresql solution assuming that we have all super user access and that the server we're using can access the csv file directly.
+        * FIRST: I specify the table where I'm storing all the data
+            ```
+            CREATE TABLE import_info (
+                id_num SERIAL,
+                ID CHAR(16),
+                Quantity NUM,
+                PRIMARY KEY (id_num)
+            )
+            ```
+        * SECOND: I input the data (again, assuming that the server can read the file) using the COPY function
+            ```
+            COPY import_info(ID, Quantity)
+            FROM 'file_path\my_file.csv'
+            DELIMITER = ','
+            CSV HEADER;
+            ```
 * How would you find the top 5 highest-selling items from a list of order histories?
+    * SOLUTION: Assume I have a table orders with these columns: "order_id", "order_date", "customer_id", "item_id". I then create the query below
+        ```
+        SELECT
+            count(order.order_id) as n_order,
+            order.item_id
+        GROUP BY order.item_id
+        ORDER BY n_order DESC
+        LIMIT 5;
+        ```
+        Assuming, instead, that we want to extract the top 5 by month, we have
+        ```
+        SELECT
+            count(order.order_id) as n_order,
+            order.item_id,
+            to_char(order_date, 'YYYY-MM') as my_date,
+            rank() as my_ranking
+        GROUP BY my_date, order.item_id
+        ORDER BY my_date ASC, n_order DESC
+        WHERE my_ranking <= 5;
+        ```        
+        
 * Given three columns of data, how would you compare the first three to the last three?
+    * The question is unclear: are we comparing the first three columns of a dataset to the last three column of the dataset, or are we comparing the first three rows of those columns to the last three rows of the same columns? 
+    *  First option: comparing columns
+        ```
+        SELECT
+         CASE
+            WHEN table1.col1 = table1.col4 then 'T'
+            ELSE 'F'
+         END AS check1,
+         CASE
+            WHEN table1.col2 = table1.col5 then 'T'
+            ELSE 'F'
+         END AS check2,
+         CASE
+            WHEN table1.col3 = table1.col6 then 'T'
+            ELSE 'F'
+         END AS check3
+       FROM table1;
+        ```
+    * Second option: comparing rows
+        ```
+        SELECT
+        data_col-last_data_col as my_comparison
+        FROM (
+            SELECT
+                table1.data_col,
+                (select table.data_col from table1 order by table.data_col desc) as last_data_col
+            FROM table1
+            LIMIT 3
+        ) tab1;
+        ```
 * How do you calculate the median for a given column of numbers in a data set?
 * Provided a table with user_id and the dates they visited the platform, find the top 100 users with the longest continuous streak of visiting the platform as of yesterday.
 * Provided a table with page_id, event timestamp, and an on/off status flag, find the number of pages that are currently on.
+    * SOLUTION: I assume we have the following table as a starting point: my_table (page_id, timestamp, status). The query solution thus becomes:
+        ```
+        SELECT
+            tab1.page_id
+        FROM(
+            SELECT
+             my_table.page_id,
+             max(my_table.timestamp),
+             my_table.status
+            FROM my_table
+            GROUP BY my_table.page_id
+        ) tab1
+        where tab1.status = 'on'
+        ```
 * What's the difference between a left join, a union, and a right join?
+    * Left join -> returns all records of table A and the matching records of table B;
+    * Right join -> returns all records of table B and the matching records of table A;
+    * Union -> returns all records of select statement A with all the records of select statement B. 
 
 **Data structure and algorithms questions**
 
