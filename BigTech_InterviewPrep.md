@@ -119,7 +119,7 @@ This is the most honest self-thought I can think of for myself. Ok, enough chit-
 
 * Given a table with three columns, (id, category, value) and each id has 3 or less categories (price, size, color); how can you find those id's for which the value of two or more categories matches one another? 
     * Proposed solution:
-   ```
+    ```
    SELECT
     combin,
     COUNT(DISTINCT combin) as n_occur
@@ -146,7 +146,9 @@ This is the most honest self-thought I can think of for myself. Ok, enough chit-
      where tab3.id != tab3.id2)
  GROUP BY combin
  WHERE n_occur >= 2;
-   ```
+
+    ```
+
 * I have table 1, with 1 million records, with ID, AGE (column names) , Table 2 with 100 records with ID and Salary, and the following script. How many records would be returned?
 
     SELECT A.ID,A.AGE,B.SALARY
