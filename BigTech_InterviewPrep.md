@@ -143,9 +143,9 @@ This is the most honest self-thought I can think of for myself. Ok, enough chit-
                 tab) tab2
          ON tab.cat = tab2.cat AND tab.val = tab2.val
      ) tab3
-     where tab3.id != tab3.id2)
- GROUP BY combin
- WHERE n_occur >= 2;
+     WHERE tab3.id != tab3.id2)
+    GROUP BY combin
+    WHERE n_occur >= 2;
 
     ```
 
