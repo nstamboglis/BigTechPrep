@@ -21,28 +21,44 @@ This is the most honest self-thought I can think of for myself. Ok, enough chit-
 **SQL Questions**
 
 * Write a SQL code to explain month to month user retention rate.
-    * Assumption: I have a table users_month with the following columns: a) plat_payment_date, b) user_id. plat_payment_date is valued monthly with the same day as the date of subscription. 
+    * Assumption: I have a table users_payments with the following columns: a) plat_payment_date, b) user_id. plat_payment_date is valued monthly on the same day as the date of subscription. I interpreted month-to-month retention to be computed as follows: (active users (t) - new uesers (t)) / registered users (t-1) * 100. We therefore have the following:
     * Solution: 
     ```
-    SELECT 
-        tab1.user_id
-        tab1.user_start_date
-        tab1.user_date   
-    from(
-        SELECT 
-        MIN(EXTRACT(MONTH FROM users_month.plat_payment_date)) AS user_start_date
-        um.user_id
-        FROM users_month um
-        GROUP BY users_month.user_id
-    ) tab1
-    inner_join(
-        SELECT 
-        EXTRACT(MONTH FROM users_month.plat_payment_date) AS user_date
-        um2.user_id
-        FROM users_month um2
-        GROUP BY users_month.user_id
-    ) tab2
-    by tab1.user_id = tab2.user_id;
+    SELECT
+        (tab3.active_users - tab3.new_users) / tab4.prev_users * 100 as retention_rate
+        check_date
+    FROM(
+        SELECT
+            COUNT(DISTINCT  users_payments.user_id) as active_users
+            pay_date as check_date
+        FROM users_payments tab1
+        GROUP BY check_date
+        LEFT JOIN(
+            SELECT
+                COUNT(DISTINCT user_id) as new_users
+                reg_date
+                FROM(
+                    SELECT 
+                        MIN(users_payments.pay_date) as reg_date
+                        users_payments.user_id
+                    FROM users_payments
+                    GROUP BY reg_date)
+        ) tab2
+        on tab1.check_date = tab2.reg_date) tab3
+     LEFT JOIN(
+                SELECT
+                COUNT(DISTINCT user_id) as prev_users
+                reg_date
+                FROM(
+                    SELECT 
+                        MIN(users_payments.pay_date) as reg_date
+                        users_payments.user_id
+                    FROM users_payments
+                    GROUP BY reg_date)
+     ) tab4
+     ON tab3.check_date = (tab4.reg_date-1)
+     GROUP BY tab3.check_date
+     ORDER BY tab3.check_date asc;
     ```
 * Describe different JOINs in SQL;
     * Assuming we have two tables: A (to the left) and B (to the right). Assume we Have A = [("ID", "Country"), (1, Austria), (2, UK), (3, Italy)] and B = [c("Country", "Capital"), (Austria, Vienna), (Italy, Rome), (Thailand, Bangkok)].Then the different join types are:  
@@ -154,7 +170,6 @@ This is the most honest self-thought I can think of for myself. Ok, enough chit-
 * When you have time series data by month, and it has large data records, how will you find significant differences between this month and previous month?
 * How do you inspect missing data and when are they important?
 Assume you have a file containing data in the form of data = [{"one":a1, "two":b1,...},{"one":a2, "two":b2,...},{"one":a3, "two":b3,...},...] How could you split this data into 30% test and 70% train data?
-* We have two models, one with 85% accuracy, one 82%. Which one do you pick? (Solution)
 * How would you improve a classification model that suffers from low precision?
 * How would you create a model to find bad sellers on marketplace?
 * Assume you have a file containing data in the form of data = [{"one":a1, "two":b1,...},{"one":a2, "two":b2,...},{"one":a3, "two":b3,...},...] How could you split this data into 30% test and 70% train data?
