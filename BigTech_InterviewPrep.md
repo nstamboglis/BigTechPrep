@@ -307,11 +307,11 @@ This is the most honest self-thought I can think of for myself. Ok, enough chit-
 * We have two models, one with 85% accuracy, one 82%. Which one do you pick? (solution)
     * It depends on the objective of the analysis. In a classification model, accuracy is defined as: (TP + TN) / (TP + TN + FP + FN). Perhaps, however, we are facing a specific problem where identifying just one class is very important, such as spam-detection. In that case I'd consider looking for other metrics such as Precision = TP / (TP + FP) or Recall = TP / (TP + FN). If those two metrics are also in the same order as accuracy, I'd consider model 1 to be more informative. I would also take into consideration two additional factors: a) ease of model maintenance, b) prediction time.
 * When you have time series data by month, and it has large data records, how will you find significant differences between this month and previous month?
+	*  I would consider two options for this, both of which work on first differences in the time series data:
+	*  1. Compare the last first difference to the previous ones computing a t-test, defined as: t = (d-d_hat) / ste(d), where d is the first difference I'm checking, d_hat is the average of previous differences, ste(d) is the empirical standard error of the first differences defined as: sqrt(sum _i (d-d_hat)^2 / (N-1)). The t-test can also be defined in its adjusted format as t = (d-d_hat) / (ste(d) / sqrt(N)), where N is total number of observations. 
 * How do you inspect missing data and when are they important?
-Assume you have a file containing data in the form of data = [{"one":a1, "two":b1,...},{"one":a2, "two":b2,...},{"one":a3, "two":b3,...},...] How could you split this data into 30% test and 70% train data?
-* How would you improve a classification model that suffers from low precision?
-* How would you create a model to find bad sellers on marketplace?
 * Assume you have a file containing data in the form of data = [{"one":a1, "two":b1,...},{"one":a2, "two":b2,...},{"one":a3, "two":b3,...},...] How could you split this data into 30% test and 70% train data?
+* How would you create a model to find bad sellers on marketplace?
 
 **Machine learning questions**
 
