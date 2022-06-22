@@ -308,10 +308,22 @@ This is the most honest self-thought I can think of for myself. Ok, enough chit-
     * It depends on the objective of the analysis. In a classification model, accuracy is defined as: (TP + TN) / (TP + TN + FP + FN). Perhaps, however, we are facing a specific problem where identifying just one class is very important, such as spam-detection. In that case I'd consider looking for other metrics such as Precision = TP / (TP + FP) or Recall = TP / (TP + FN). If those two metrics are also in the same order as accuracy, I'd consider model 1 to be more informative. I would also take into consideration two additional factors: a) ease of model maintenance, b) prediction time.
 * When you have time series data by month, and it has large data records, how will you find significant differences between this month and previous month?
 	*  I would consider two options for this, both of which work on first differences in the time series data:
-	*  1. Compare the last first difference to the previous ones computing a t-test, defined as: t = (d-d_hat) / ste(d), where d is the first difference I'm checking, d_hat is the average of previous differences, ste(d) is the empirical standard error of the first differences defined as: sqrt(sum _i (d-d_hat)^2 / (N-1)). The t-test can also be defined in its adjusted format as t = (d-d_hat) / (ste(d) / sqrt(N)), where N is total number of observations. 
+	*  1. Compare the last first difference to the previous ones computing a t-test, defined as: t = (d-d_hat) / ste(d), where d is the first difference I'm checking, d_hat is the average of previous differences, ste(d) is the empirical standard error of the first differences defined as: sqrt(sum _i (d-d_hat)^2 / (N-1)). The t-test can also be defined in its adjusted format as t = (d-d_hat) / (ste(d) / sqrt(N)), where N is total number of observations. I would then test the following assumption: H_0 = "d is equal to previous registered differences". As the time series is long, I would then compare the results to a standard normal distribution.
+	*  2. Calculate the Normalized version of the first differences (z-score), defined as z = d-d_hat / se(d). If the last difference is higher than 1.96 in absolute value we have a statistical difference.
 * How do you inspect missing data and when are they important?
+	*  When analysing a new dataset, I always check the percentage of missing data of its columns; 
+	*  Columns with a high % of missing are generally not used for the analysis (the % depends on the problem, however a rule of thumb is to avoid having more than 5% missing data);
+	*  One analysis on missing data is to check whether they are missing at random or non-at-random (e.g. more missing data in specific classes / features combinations or cells). Having data missing non-at-random might be informative of the data generating process;
+	*  Missing data are important when selecting the algorithm for the analysis, as some of them might not work well with missing data;
+	*  Missing data might also be relevant when we need to do point-wise prediction (such as the rating score of a specific customer), in such cases it is best to have an approach for handling missing data using an imputation technique);
+	*  Imputation techniques (which should be always used carefully) might include: a) getting the average of the distribution, b) getting a custom value such as 0 (problem-dependent), c) use a more complex technique such as a decision tree applied on the other dataset features.
 * Assume you have a file containing data in the form of data = [{"one":a1, "two":b1,...},{"one":a2, "two":b2,...},{"one":a3, "two":b3,...},...] How could you split this data into 30% test and 70% train data?
+	* I assume that the variables called "one", "two" etc refer to columns of the dataset. I assume that values a1, a2, b1, b2 etc. are possible values of such variables (scalar / numeric varibles, categorical variables ecc);
+	* I would propose two alternative splitting methods:
+		* at random -> we randomly select 30% of the records of our dataset, such records go to the test set, the remaining go to the train set. The selection occurs at random without re-insertion;
+		* with cross-validation -> in this case we different "sets" of our datasource. Such "sets" are alternatively included in the training or the test set. Cross-validation is useful to assess whether the results of our model are robust to different sampling approaches.	  
 * How would you create a model to find bad sellers on marketplace?
+	* It depends on what we define a "bad seller" to be.  
 
 **Machine learning questions**
 
