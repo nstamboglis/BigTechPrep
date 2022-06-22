@@ -322,8 +322,14 @@ This is the most honest self-thought I can think of for myself. Ok, enough chit-
 	* I would propose two alternative splitting methods:
 		* at random -> we randomly select 30% of the records of our dataset, such records go to the test set, the remaining go to the train set. The selection occurs at random without re-insertion;
 		* with cross-validation -> in this case we different "sets" of our datasource. Such "sets" are alternatively included in the training or the test set. Cross-validation is useful to assess whether the results of our model are robust to different sampling approaches.	  
-* How would you create a model to find bad sellers on marketplace?
-	* It depends on what we define a "bad seller" to be.  
+* How would you create a model to find bad sellers on a marketplace?
+	* It depends on what we define a "bad seller" to be. For instance, we could create a feature indicating whether a seller falls into to the last percentile of sellers by total sales for three consecutive periods (years, quarters etc). We could then consider seller's features as explicative variables, such as country, sectorial classification etc. as features for our predictive model. We could then use alternative machine learning models to test whether the seller falls into this category (e.g. logit model, decision treee etc..). The steps to implement this model would be:
+		* 1. Create the classification feature,
+		* 2. Explore its relation with alternative features;
+		* 3. Run feature selection (correlation analysis, PCA etc);
+		* 4. Split data into train, test and validation sets;
+		* 5. Run alternative specifications of the model;
+		* 6. Selecting the model that better satisfies our target measure: e.g. accuracy or precision or recall. 
 
 **Machine learning questions**
 
