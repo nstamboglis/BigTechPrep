@@ -334,8 +334,10 @@ This is the most honest self-thought I can think of for myself. Ok, enough chit-
 **Machine learning questions**
 
 * How do you interpret logistic regression?
+	*  Logistic regression provides an estimate of the probability of a variable being in a certain class (abinary variable). The model is estimated using a logistic function of the form p(x) = 1/ (1+e^(wx+b)), wx+b are the regression parameters. Individual parameters can therefore be interpreted as the expected change in log-odds given a unit variation in the parameters. In terms of odds-ratio we can say: increasing the predictor by 1 unit increases the probability of the positive outcome by e^w.
 * How does dropout work?
 * What is L1 vs L2 regularization?
+	* L1 (Lasso) and L2 (Ridge) are regularization methods which are used in regression models to penalize the introduction of a huge number of regressors. 
 * What is the difference between bagging and boosting?
 * Explain in detail how a 1D CNN works.
 * Describe a case where you have solved an ambiguous business problem using machine learning.
