@@ -116,7 +116,6 @@ This is the most honest self-thought I can think of for myself. Ok, enough chit-
         tab3.year asc, tab3.myflag asc
     ```
 
-
 * Given a table with three columns, (id, category, value) and each id has 3 or less categories (price, size, color); how can you find those id's for which the value of two or more categories matches one another? 
     * Proposed solution:
     ```
@@ -238,7 +237,28 @@ This is the most honest self-thought I can think of for myself. Ok, enough chit-
         ) tab1;
         ```
 * How do you calculate the median for a given column of numbers in a data set?
+    * Solution: 
+        ```
+        SELECT PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY tab.colum) FROM tab.colum;
+        ```
 * Provided a table with user_id and the dates they visited the platform, find the top 100 users with the longest continuous streak of visiting the platform as of yesterday.
+    * Solution: Assume we have a table of this type table('user_id', 'visiting-date'), then the query becomes
+        ```
+        select
+	        tab1.*
+        from(
+                select distinct on (customer_id) customer_id, min(order_time), max(order_time), max(seqnum) as thread_length
+                from (select co.*,
+                             row_number() over (partition by customer_id order by order_time) as seqnum
+                      from pizza_runner.customer_orders co
+                      where co.order_time <= '2020-01-07'
+                     ) co
+                group by customer_id, order_time - seqnum * interval '1 day'
+                order by customer_id, count(*) desc
+            ) tab1
+        order by tab1.thread_length desc limit 100;
+        ```
+
 * Provided a table with page_id, event timestamp, and an on/off status flag, find the number of pages that are currently on.
     * SOLUTION: I assume we have the following table as a starting point: my_table (page_id, timestamp, status). The query solution thus becomes:
         ```
