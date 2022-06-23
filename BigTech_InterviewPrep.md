@@ -375,12 +375,26 @@ This is the most honest self-thought I can think of for myself. Ok, enough chit-
 	*  Applying the exponent properties to the expression above we obtain $$L(p, x_1, x_2, ..., x_n) = p^{\sum _i x_i} (1-p) \sum _i (1-x_i)$$
 	*  The above function can be maximised by means of a monotone transformation, such as taking its log, as follows $$log L(p, x_1, x_2, ..., x_n) = log(p^{\sum _i x_i} (1-p) ^{\sum _i (1-x_i)}) = log(p)*\sum x_i + log(1-p) * \sum(1-x_i)$$.
 	*  We can maximise the likelihood expression defined above by taking its first derivative and setting it to zero, such as $$\delta l / \delta p = 1/p \sum x_i - \sum(1-x_i) / (1-p)$$ which, after some semplification, becomes $$ \sum x_i -np = 0$$ which, in turn, yields $$p = \sum x_i / n$$.
-	*  Now, substituting the general $x_i$ with the observed $K$, we obtain $$p = \sum x_i / n$$.
+	*  Now, substituting the general $x_i$ with the observed $k$, we obtain $$p = k / n$$.
 * There are 4 red balls and 2 blue balls, what's the probability of them not being the same in the 2 picks?
+	* The problem can be solved using a tree diagram. A tree diagram is an approch to count favourable cases over possible cases easily. The tree diagram puts the two choices in sequantial order. We can use the diagram to solve the problem with reinsertion and without reinsertion:
+	* With resinsertion: Choice 1 -> (4R, 2B), Choice 2 -> (4R, 4R; 16 cases), (4R, 2B; 8 cases), (2B, 4R; 8 cases), (2B, 2B; 4 cases). From here we have 8 RB and 8 BR cases over 36 possible cases, hence = pr(different colors) =  16/36;
+	* Without reinsertion: Choice 1 -> (4R, 2B), Choice 2 -> (4R, 3R; 12 cases), (4R, 2B; 8 cases), (2B, 4R; 8 cases), (2B, 1B; 2 cases). From which pr(different colors) = 16 / 30.
 * How would you explain hypothesis testing for a newbie?
+	* Hypothesis testing is an empirical approach to accept or reject a given hypothesis on the value of a certain parameter given its theoretical or observed distribution. Hypothesis testing requires setting up a null hypothesis (H_0) to be tested against an alternative hypothesis H_1. The two hypothesis have to be mutually exclusive. Hypothesis testing also requires setting up a statistical test to check whether we can accept, or cannot accept, a given hypothesis based on the distribution of the data at hand. For instance, we could set a Null Hypothesis of the average of a distribution being equal to a number (say 9) and test it based on the observed parameters of the distribution. This test would be called t-test. For instance, we can have: $t = 9-\hat{X} / se(X)$. This test can be verified for a a-priori selected significance level (the level of our test).   
 * What is cross-validation?
+	* Cross-validation is a modelling approach used to ensure robustness of the prediction results and to avoid overfitting (that is the model being well performing on the training set, but not on test or validation sets). The approach is useful in identifying model hyper-parameters. Cross-validation works by dividing data into folds of data (say 5 folds of equal number of observations selected at random). Individual folds are used alternative as either training or test sets. The resulting models are used to estimate alternative hyper-parameters. The resulting cross-validated model uses a statistics of the parameters estimated via cross validation (e.g. average of the hyper-parameter).  
 * How do you interpret OLS regression results?
+	* With regression results I interpret them to be the regression coefficients. Regression coefficients indicate the partial correlation of the regressor with the dependent variable. Generally speaking, regression coefficients can be interpreted as the effect of a unitary variation in the regressor on the dependent variable. There are some exceptions to the interpretation above, such as when the variable is a categorical one or, when the model is computed in logs (exceptions non reported for simplicity).  
 * Explain confidence intervals
+	* Confidence intervals are the range of values in which an estimated regression coefficient, or value predicted by a model, holds with a given probability (determined a priori).  
 * Name the five assumptions of linear regression
+	* 1. Linearity in the relation across the dependent variable and its regressor;
+	* 2. No endogeneity across regressors and error term (zero covariance across the two);
+	* 3. Normality and homoschedasticity of the residuals (residuals are normally distributed and with equal variance for all residuals);
+	* 4. No autocorrelation across residuals (the correlation across residuals is zero);
+	* 5. No multicollinearity across regressors (regressors cannot be a linear combination of each other) 
 * Estimate the disease probability in one city given the probability is very low nationwide. Randomly asked 1000 people in this city, with all negative responses (NO disease). What is the probability of disease in this city?
+	* -> DK 
 * What is the difference between linear regression and a t-test?
+	* A t-test is is a test run on an individual parameter given its observed distribution. Linear regression, on the contrary is a method for the estimatino of a linear relation across a dependent variable and a set of its covariates. The linear regression is used to estimate the value of a dependent variable given its regressors. In the context of a linear regression, a t-test can be used to estimate the significance of a given regressor on the dependent variable. 
