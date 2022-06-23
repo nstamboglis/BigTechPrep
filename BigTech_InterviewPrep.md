@@ -372,7 +372,9 @@ This is the most honest self-thought I can think of for myself. Ok, enough chit-
 * What is the maximum likelihood of getting k heads when you tossed a coin n times? Write down the mathematics behind it.
 	*  As we are working with a Bernoulli distribution (toss of a coin), our probability mass function is defined as $$f(x) = p^x*(1-p)^{(1-x)}$$.
 	*  For the likelihood of observing a specific draw from the coin in a series of tosses, we have to consider the join probability mass fucntion, defined as the product of individual pmf, namely $$L(p, x_1, x_2, ..., x_n) = \prod _i ^{N} p^x_i*(1-p)^{(1-x_i)}$$.
-	*  Sububstituing
+	*  Applying the exponent properties to the expression above we obtain $$L(p, x_1, x_2, ..., x_n) = p^{\sum _i x_i} (1-p) \sum _i (1-x_i)$$
+	*  The above function can be maximised by means of a monotone transformation, such as taking its log, as follows $$log L(p, x_1, x_2, ..., x_n) = log(p^{\sum _i x_i} (1-p) \sum _i (1-x_i)) = log(p)*\sum x_i + log(1-p) * \sum(1-x_i)$$.
+	*  We can maximise the likelihood expression defined above by taking its first derivative and setting it to zero, such as 
 * There are 4 red balls and 2 blue balls, what's the probability of them not being the same in the 2 picks?
 * How would you explain hypothesis testing for a newbie?
 * What is cross-validation?
