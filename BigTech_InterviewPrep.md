@@ -316,7 +316,8 @@ This is the most honest self-thought I can think of for myself. Ok, enough chit-
 	*  One analysis on missing data is to check whether they are missing at random or non-at-random (e.g. more missing data in specific classes / features combinations or cells). Having data missing non-at-random might be informative of the data generating process;
 	*  Missing data are important when selecting the algorithm for the analysis, as some of them might not work well with missing data;
 	*  Missing data might also be relevant when we need to do point-wise prediction (such as the rating score of a specific customer), in such cases it is best to have an approach for handling missing data using an imputation technique);
-	*  Imputation techniques (which should be always used carefully) might include: a) getting the average of the distribution, b) getting a custom value such as 0 (problem-dependent), c) use a more complex technique such as a decision tree applied on the other dataset features.
+	*  Imputation techniques (which should be always used carefully) might include: a) getting the average of the distribution, b) getting a custom value such as 0 (problem-dependent), c) use a more complex technique such as a decision tree applied on the other dataset features;
+	*  One alternative technique is also to encode missing data as an additional feature of the model.
 * Assume you have a file containing data in the form of data = [{"one":a1, "two":b1,...},{"one":a2, "two":b2,...},{"one":a3, "two":b3,...},...] How could you split this data into 30% test and 70% train data?
 	* I assume that the variables called "one", "two" etc refer to columns of the dataset. I assume that values a1, a2, b1, b2 etc. are possible values of such variables (scalar / numeric varibles, categorical variables ecc);
 	* I would propose two alternative splitting methods:
@@ -336,22 +337,40 @@ This is the most honest self-thought I can think of for myself. Ok, enough chit-
 * How do you interpret logistic regression?
 	*  Logistic regression provides an estimate of the probability of a variable being in a certain class (abinary variable). The model is estimated using a logistic function of the form p(x) = 1/ (1+e^(wx+b)), wx+b are the regression parameters. Individual parameters can therefore be interpreted as the expected change in log-odds given a unit variation in the parameters. In terms of odds-ratio we can say: increasing the predictor by 1 unit increases the probability of the positive outcome by e^w.
 * How does dropout work?
+	* DK 
 * What is L1 vs L2 regularization?
-	* L1 (Lasso) and L2 (Ridge) are regularization methods which are used in regression models to penalize the introduction of a huge number of regressors. 
+	* L1 (Lasso) and L2 (Ridge) are regularization methods which are used in regression models to penalize the introduction of a huge number of regressors. Including several variables as features in a regression model might have a number of draw-backs: a) they might be significant only by chance, b) they might lead to collinearity, c) they might lead to bias. An additional, practical, limitation is that having many variables might make the model more difficult to handle in terms of data flows. Regularization is therefore a technique to ensure that the model limits the number of regressors used. Regularization works by introducing a penalty for the introduction of additional regressors. L1 regularization (Lasso) introduces the sum of the absolute value of the regressors as a cost function in the regression objective function (sum of squared residuals in OLS). The L2 regularization (ridge) introduces the squared of the regressors as a cost function in the objective function (same as above). 
 * What is the difference between bagging and boosting?
+	* DK 
 * Explain in detail how a 1D CNN works.
+	* DK 
 * Describe a case where you have solved an ambiguous business problem using machine learning.
+	* Can't provide much details here. Let's just say that I had to make comparison across business entities based on their "similarity". No prior guidance on how this "similarity" had to be defined. As my team was in a "Proof-of-Concept" setting, I've explored different dimensions of the problem: financial, geographical and textual (features of the companies). I've then applied a different model for each of these "dimensions" of the problem: KNN, euclidean distance, and cosine similarity. 
 * Having a categorical variable with thousands of distinct values, how would you encode it?
+	* Having such variable could be tricky to use in a model. Its effectiveness might dependent on the characteristics of the feature, the business problem at hand and on the type of model we decide to use (regression vs decision tree for example). One way to group such variables may include:
+		* Group encoding -> if for example the categorical variable has a sectorial or geographical classification, we could try to group it at a higher classification level (e.g. from municipality to province or region);
+		* Frequency encoding -> encode only the most frequent categories and include the least frequent ones into an "other" category (although this approach might depend on the specifics of the business problem and on the data characteristics).
 * How do you manage an unbalanced data set?
+	* Having an unbalanced dataset might lead to biased estimation results. Two ways to handle an unbalanced dataset are:
+		* Undersampling -> we reduce the number of samples in the most frequent category;
+		* Over-sampling -> we repeat the records of the least represented category.
+	* While the two approaches above can be useful in providing more robust results, they might also lead to overfitting. It is therefore always better to run the approaches above together with cross-validation.  
 * What is lstm? Why use lstm? How was lstm used in your experience?
+	* DK 
 * What did you use to remove multicollinearity? Explain what values of VIF you used.
+	* Multicollinearity might lead to biased regression results. This is because when regressors are correlated with each other, then the variance of the estimated coefficient is higher, leading to poorer t-tests for the significance of the regression coefficients. the best way to address collinearity is to remove the collinear variables, if possibles. In alternative, the analyst could check for an increased number of observations in the model.  
+	* DK VIF.
 * Explain different time series analysis models. What are some time series models other than Arima?
+	* I know neural networks can be used, but DK why.
 * How does a neural network with one layer and one input and output compare to a logistic regression?
+	* DK 
 
 **Statistics Questions**
 
 * What is p-value?
+	* In a t-test, p-value is the probabiity of observing a value of the estimated parameter higher in absolute terms than the one observed empirically, given the theoretical (or empirical) distribution of the parameters. By convention, a p-value lower than 5% indicates that the null hypothesis of the test we are running cannot be accepted. 
 * What is the maximum likelihood of getting k heads when you tossed a coin n times? Write down the mathematics behind it.
+	*  As we are working with a Bernoulli distribution (toss of a coin), our probability mass function is defined as $$f(x) = p^x*(1-p)^(1-p)$$
 * There are 4 red balls and 2 blue balls, what's the probability of them not being the same in the 2 picks?
 * How would you explain hypothesis testing for a newbie?
 * What is cross-validation?
