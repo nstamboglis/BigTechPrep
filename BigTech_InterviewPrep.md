@@ -370,7 +370,9 @@ This is the most honest self-thought I can think of for myself. Ok, enough chit-
 * What is p-value?
 	* In a t-test, p-value is the probabiity of observing a value of the estimated parameter higher in absolute terms than the one observed empirically, given the theoretical (or empirical) distribution of the parameters. By convention, a p-value lower than 5% indicates that the null hypothesis of the test we are running cannot be accepted. 
 * What is the maximum likelihood of getting k heads when you tossed a coin n times? Write down the mathematics behind it.
-	*  As we are working with a Bernoulli distribution (toss of a coin), our probability mass function is defined as $$f(x) = p^x*(1-p)^(1-p)$$
+	*  As we are working with a Bernoulli distribution (toss of a coin), our probability mass function is defined as $$f(x) = p^x*(1-p)^{(1-x)}$$.
+	*  For the likelihood of observing a specific draw from the coin in a series of tosses, we have to consider the join probability mass fucntion, defined as the product of individual pmf, namely $$L(p, x_1, x_2, ..., x_n) = \prod _i ^{N} p^x_i*(1-p)^{(1-x_i)}$$.
+	*  Sububstituing
 * There are 4 red balls and 2 blue balls, what's the probability of them not being the same in the 2 picks?
 * How would you explain hypothesis testing for a newbie?
 * What is cross-validation?
